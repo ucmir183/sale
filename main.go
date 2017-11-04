@@ -18,7 +18,7 @@ func init() {
 
 func main() {
 	name := "default"
-	force := true
+	force := false
 	verbose := true
 	err := orm.RunSyncdb(name,force,verbose)
 	if err != nil {
