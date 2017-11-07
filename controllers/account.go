@@ -1,15 +1,15 @@
 package controllers
 
 import (
-	"fmt"
 	"sale/models"
 	"github.com/astaxie/beego/orm"
-	"crypto/md5"
-	"encoding/hex"
+	"fmt"
+	"github.com/lib"
+	"github.com/astaxie/beego"
 )
 
 type AccountController struct {
-	BaseController
+	beego.Controller
 }
 
 func (this *AccountController) Get(){
@@ -17,15 +17,24 @@ func (this *AccountController) Get(){
 }
 
 func (this *AccountController) Post() {
+	username := this.GetString("username")
+	password := this.GetString("password")
+
 	o := orm.NewOrm()
-	user := models.User{Id: 1}
+	user := models.User{Username:username}
+	err := o.Read(&user, "username")
+	if err != nil {
+		fmt.Println(err)
+	}
 
-	err := o.Read(&user)
-	h := md5.New()
-	h.Write([]byte("123456"))
-	str := h.Sum(nil)
+	if  user.Password == lib.Md5_encode(password)  {
+		user.Password = ""
+		this.SetSession("session_user",user)
 
-	fmt.Println(user.Username,user.Id,err,hex.EncodeToString(str))
+		this.Ctx.Redirect(302, "/admin")
+	}
+
+
 
 	return;
 }

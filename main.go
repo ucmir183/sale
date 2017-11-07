@@ -8,9 +8,23 @@ import (
 	"fmt"
 
 	_"sale/models"
+	"github.com/astaxie/beego/session"
 )
 
 func init() {
+	sessionConfig := &session.ManagerConfig{
+		CookieName:"gosessionid",
+		EnableSetCookie: true,
+		Gclifetime:3600,
+		Maxlifetime: 3600,
+		Secure: false,
+		CookieLifeTime: 3600,
+		ProviderConfig: "./tmp",
+	}
+
+	globalSessions, _ := session.NewManager("memory",sessionConfig)
+	go globalSessions.GC()
+
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 
 	orm.RegisterDataBase("default", "mysql", "root:as112233@/orm_test?charset=utf8")
