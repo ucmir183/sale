@@ -6,6 +6,12 @@
     <title>layout 后台大布局 - Layui</title>
     <link rel="stylesheet" href="/plugin/layui/css/layui.css">
     {{.HtmlHead}}
+    <style>
+        .layui-table[lay-skin=line] {
+            border-width: 0 0 0 0 !important;
+            width:100%;
+        }
+    </style>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -45,12 +51,15 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">所有商品</a>
+                    <a class="" href="javascript:;">用户管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
+                        <dd>
+                            <a href="{{urlfor "UserController.Get"}}"
+                               {{if .is_user}}
+                               class="layui-this"
+                               {{end}}
+                            >用户列表</a>
+                        </dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
@@ -79,8 +88,11 @@
 <script src="/plugin/layui/layui.js"></script>
 <script>
     //JavaScript代码区域
-    layui.use('element', function(){
+    layui.use(['element',"table"], function(){
         var element = layui.element;
+        layui.use('table', function(){
+            var table = layui.table;
+        });
 
     });
 </script>

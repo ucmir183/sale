@@ -9,6 +9,7 @@ type BaseController struct {
 }
 
 func (this *BaseController) Prepare() {
+	this.Layout = "admin/base/base.html"
 	webName,_ := beego.GetConfig("String","webname"," ")
 	this.Data["webName"] = webName
 	sUser := this.GetSession("session_user")

@@ -31,6 +31,7 @@ func init() {
 }
 
 func main() {
+	beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = 86400
 	name := "default"
 	force := false
 	verbose := true
